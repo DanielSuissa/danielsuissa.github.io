@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bingo Board Generator - Create Custom Bingo Games</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Create custom bingo boards with numbers or images. Perfect for classroom activities, parties, and events. Free online bingo board generator.">
+    <meta name="keywords" content="bingo generator, custom bingo boards, bingo maker, free bingo creator, image bingo">
+    
+    <!-- Open Graph / Social Media Meta Tags -->
+    <meta property="og:title" content="Bingo Board Generator">
+    <meta property="og:description" content="Create custom bingo boards with numbers or images. Free online generator.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://your-domain.com">
+    
+    <!-- Stylesheets -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/material-components-web/14.0.0/material-components-web.min.css" rel="stylesheet">
+    <link href="styles.css" rel="stylesheet">
+    
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/material-components-web/14.0.0/material-components-web.min.js"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=your-adsense-id"></script>
+</head>
+<body>
+    <div class="container">
+        <h1 class="mdc-typography--headline4">Bingo Board Generator</h1>
+        
+        <!-- Step 1: Choose board type -->
+        <div class="step active" id="step1">
+            <h2 class="mdc-typography--headline6">Choose Board Type</h2>
+            <div class="grid-buttons">
+                <button class="mdc-button mdc-button--raised" onclick="selectBoardType('numbers')">
+                    <span class="mdc-button__label">Number Board</span>
+                </button>
+                <button class="mdc-button mdc-button--raised" onclick="selectBoardType('images')">
+                    <span class="mdc-button__label">Image Board</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Step 2: Choose board size -->
+        <div class="step" id="step2">
+            <h2 class="mdc-typography--headline6">Choose Board Size</h2>
+            <div class="grid-buttons">
+                <button class="mdc-button mdc-button--raised" onclick="selectBoardSize(4)">4x4</button>
+                <button class="mdc-button mdc-button--raised" onclick="selectBoardSize(5)">5x5</button>
+                <button class="mdc-button mdc-button--raised" onclick="selectBoardSize(6)">6x6</button>
+                <button class="mdc-button mdc-button--outlined" onclick="showCustomSizeDialog()">
+                    <span class="mdc-button__label">Custom Size</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Step 3: Image Search -->
+        <div class="step" id="step3">
+            <h2 class="mdc-typography--headline6">Search and Select Images</h2>
+            <div class="mdc-text-field mdc-text-field--outlined mdc-text-field--with-leading-icon">
+                <input type="text" id="imageSearch" class="mdc-text-field__input" 
+                       placeholder="Search images..." onkeyup="searchImages(this.value)">
+                <div class="mdc-notched-outline">
+                    <div class="mdc-notched-outline__leading"></div>
+                    <div class="mdc-notched-outline__trailing"></div>
+                </div>
+            </div>
+            
+            <div class="remaining-images-counter" id="remainingCounter">
+                Remaining to select: <span>0</span> images
+            </div>
+
+            <p class="mdc-text-field-helper-text">
+                You can also drag and drop your own images here
+            </p>
+
+            <div class="image-search-container">
+                <div class="search-results" id="searchResults"></div>
+                <div class="selected-images" id="selectedImages">
+                    <div class="selected-images-count">0</div>
+                </div>
+            </div>
+
+            <button class="mdc-button mdc-button--raised continue-button" id="continueButton" onclick="showStep(4)">
+                <span class="mdc-button__label">Continue to Next Step</span>
+            </button>
+            
+            <!-- First Ad Placement -->
+            <div class="ad-placeholder">
+                <ins class="adsbygoogle"
+                     style="display:block"
+                     data-ad-client="your-adsense-id"
+                     data-ad-slot="your-ad-slot-1"
+                     data-ad-format="auto"
+                     data-full-width-responsive="true"></ins>
+                <script>
+                     (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
+            </div>
+        </div>
+
+        <!-- Step 4: Choose number of boards -->
+        <div class="step" id="step4">
+            <h2 class="mdc-typography--headline6">How Many Boards?</h2>
+            <div class="grid-buttons">
+                <button class="mdc-button mdc-button--raised" onclick="selectBoardCount(10)">10</button>
+                <button class="mdc-button mdc-button--raised" onclick="selectBoardCount(20)">20</button>
+                <button class="mdc-button mdc-button--raised" onclick="selectBoardCount(30)">30</button>
+                <button class="mdc-button mdc-button--raised" onclick="selectBoardCount(40)">40</button>
+                <button class="mdc-button mdc-button--outlined" onclick="showCustomCountDialog()">
+                    <span class="mdc-button__label">Custom Amount</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Step 5: Generation Progress -->
+        <div class="step" id="step5">
+            <h2 class="mdc-typography--headline6">Generating Your Bingo Boards...</h2>
+            <div class="progress-container">
+                <div class="mdc-linear-progress" role="progressbar" id="progressBar">
+                    <div class="mdc-linear-progress__buffer">
+                        <div class="mdc-linear-progress__buffer-bar"></div>
+                        <div class="mdc-linear-progress__buffer-dots"></div>
+                    </div>
+                    <div class="mdc-linear-progress__bar mdc-linear-progress__primary-bar">
+                        <span class="mdc-linear-progress__bar-inner"></span>
+                    </div>
+                    <div class="mdc-linear-progress__bar mdc-linear-progress__secondary-bar">
+                        <span class="mdc-linear-progress__bar-inner"></span>
+                    </div>
+                </div>
+                
+                <!-- Second Ad Placement -->
+                <div class="ad-placeholder">
+                    <ins class="adsbygoogle"
+                         style="display:block"
+                         data-ad-client="your-adsense-id"
+                         data-ad-slot="your-ad-slot-2"
+                         data-ad-format="auto"
+                         data-full-width-responsive="true"></ins>
+                    <script>
+                         (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 6: Generated Boards -->
+        <div class="step" id="step6">
+            <h2 class="mdc-typography--headline6">Your Bingo Boards are Ready!</h2>
+            <div class="button-container">
+                <button class="mdc-button mdc-button--raised" onclick="window.print()">
+                    <span class="mdc-button__label">Print Boards</span>
+                </button>
+                <button class="mdc-button mdc-button--outlined restart-button" onclick="restartApp()">
+                    <span class="mdc-button__label">Start Over</span>
+                </button>
+            </div>
+            
+            <!-- Final Ad Placement -->
+            <div class="ad-placeholder">
+                <ins class="adsbygoogle"
+                     style="display:block"
+                     data-ad-client="your-adsense-id"
+                     data-ad-slot="your-ad-slot-3"
+                     data-ad-format="auto"
+                     data-full-width-responsive="true"></ins>
+                <script>
+                     (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
+            </div>
+
+            <div class="bingo-boards" id="bingoBoards"></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
