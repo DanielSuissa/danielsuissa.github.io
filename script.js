@@ -1,6 +1,6 @@
 // Configuration
 const CONFIG = {
-    WORKER_URL: 'https://your-worker.your-domain.com',
+    WORKER_URL: 'https://bingomaker.xyz',
     MAX_BOARD_SIZE: 10,
     MIN_BOARD_SIZE: 2,
     DEFAULT_MAX_NUMBER: 75,
