@@ -1,32 +1,53 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
+
 <head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-1XGVW7WMQ6"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-1XGVW7WMQ6');
+    </script>
+
+    <!-- AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7369747443441201"
+        crossorigin="anonymous"></script>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bingo Board Generator - Create Custom Bingo Games</title>
-    
+
     <!-- SEO Meta Tags -->
-    <meta name="description" content="Create custom bingo boards with numbers or images. Perfect for classroom activities, parties, and events. Free online bingo board generator.">
+    <meta name="description"
+        content="Create custom bingo boards with numbers or images. Perfect for classroom activities, parties, and events. Free online bingo board generator.">
     <meta name="keywords" content="bingo generator, custom bingo boards, bingo maker, free bingo creator, image bingo">
-    
+
     <!-- Open Graph / Social Media Meta Tags -->
     <meta property="og:title" content="Bingo Board Generator">
     <meta property="og:description" content="Create custom bingo boards with numbers or images. Free online generator.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://your-domain.com">
-    
+
     <!-- Stylesheets -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/material-components-web/14.0.0/material-components-web.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/material-components-web/14.0.0/material-components-web.min.css"
+        rel="stylesheet">
     <link href="styles.css" rel="stylesheet">
-    
+
     <!-- Scripts -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/material-components-web/14.0.0/material-components-web.min.js"></script>
+    <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/material-components-web/14.0.0/material-components-web.min.js"></script>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=your-adsense-id"></script>
 </head>
+
 <body>
     <div class="container">
-        <h1 class="mdc-typography--headline4">Bingo Board Generator</h1>
-        
+        <div align="center"><img src="assets/logo.png" /></div>
+        <h1 class="mdc-typography--headline4">Welcome to the Bingo-Maker!</h1>
+        <h2 class="mdc-typography--headline5">Your Bingo Board Generator</h2>
+
         <!-- Step 1: Choose board type -->
         <div class="step active" id="step1">
             <h2 class="mdc-typography--headline6">Choose Board Type</h2>
@@ -57,14 +78,14 @@
         <div class="step" id="step3">
             <h2 class="mdc-typography--headline6">Search and Select Images</h2>
             <div class="mdc-text-field mdc-text-field--outlined mdc-text-field--with-leading-icon">
-                <input type="text" id="imageSearch" class="mdc-text-field__input" 
-                       placeholder="Search images..." onkeyup="searchImages(this.value)">
+                <input type="text" id="imageSearch" class="mdc-text-field__input" placeholder="Search images..."
+                    onkeyup="searchImages(this.value)">
                 <div class="mdc-notched-outline">
                     <div class="mdc-notched-outline__leading"></div>
                     <div class="mdc-notched-outline__trailing"></div>
                 </div>
             </div>
-            
+
             <div class="remaining-images-counter" id="remainingCounter">
                 Remaining to select: <span>0</span> images
             </div>
@@ -83,17 +104,13 @@
             <button class="mdc-button mdc-button--raised continue-button" id="continueButton" onclick="showStep(4)">
                 <span class="mdc-button__label">Continue to Next Step</span>
             </button>
-            
+
             <!-- First Ad Placement -->
             <div class="ad-placeholder">
-                <ins class="adsbygoogle"
-                     style="display:block"
-                     data-ad-client="your-adsense-id"
-                     data-ad-slot="your-ad-slot-1"
-                     data-ad-format="auto"
-                     data-full-width-responsive="true"></ins>
+                <ins class="adsbygoogle" style="display:block" data-ad-client="your-adsense-id"
+                    data-ad-slot="your-ad-slot-1" data-ad-format="auto" data-full-width-responsive="true"></ins>
                 <script>
-                     (adsbygoogle = window.adsbygoogle || []).push({});
+                    (adsbygoogle = window.adsbygoogle || []).push({});
                 </script>
             </div>
         </div>
@@ -128,17 +145,13 @@
                         <span class="mdc-linear-progress__bar-inner"></span>
                     </div>
                 </div>
-                
+
                 <!-- Second Ad Placement -->
                 <div class="ad-placeholder">
-                    <ins class="adsbygoogle"
-                         style="display:block"
-                         data-ad-client="your-adsense-id"
-                         data-ad-slot="your-ad-slot-2"
-                         data-ad-format="auto"
-                         data-full-width-responsive="true"></ins>
+                    <ins class="adsbygoogle" style="display:block" data-ad-client="your-adsense-id"
+                        data-ad-slot="your-ad-slot-2" data-ad-format="auto" data-full-width-responsive="true"></ins>
                     <script>
-                         (adsbygoogle = window.adsbygoogle || []).push({});
+                        (adsbygoogle = window.adsbygoogle || []).push({});
                     </script>
                 </div>
             </div>
@@ -155,17 +168,13 @@
                     <span class="mdc-button__label">Start Over</span>
                 </button>
             </div>
-            
+
             <!-- Final Ad Placement -->
             <div class="ad-placeholder">
-                <ins class="adsbygoogle"
-                     style="display:block"
-                     data-ad-client="your-adsense-id"
-                     data-ad-slot="your-ad-slot-3"
-                     data-ad-format="auto"
-                     data-full-width-responsive="true"></ins>
+                <ins class="adsbygoogle" style="display:block" data-ad-client="your-adsense-id"
+                    data-ad-slot="your-ad-slot-3" data-ad-format="auto" data-full-width-responsive="true"></ins>
                 <script>
-                     (adsbygoogle = window.adsbygoogle || []).push({});
+                    (adsbygoogle = window.adsbygoogle || []).push({});
                 </script>
             </div>
 
@@ -175,4 +184,5 @@
 
     <script src="script.js"></script>
 </body>
+
 </html>
