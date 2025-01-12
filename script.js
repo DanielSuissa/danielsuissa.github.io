@@ -132,7 +132,7 @@ function startGeneration() {
     
     let progress = 0;
     const interval = setInterval(() => {
-        progress += 0.016;
+        progress += 0.1;
         progressBar.progress = progress;
         
         if (progress >= 1) {
