@@ -50,6 +50,429 @@
         src="https://cdnjs.cloudflare.com/ajax/libs/material-components-web/14.0.0/material-components-web.min.js"></script>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=your-adsense-id"></script>
     <script defer src="./theme.js"></script>
+    <style>
+        /* VIDEO CSS */
+        .video-container {
+            position: relative;
+            width: 100%;
+            height: 120px;
+            /* Fixed height for mobile */
+            overflow: hidden;
+            margin-bottom: 1rem;
+            background-color: rgb(98, 0, 238);
+        }
+
+        .video-container video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .overlay-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            padding: 0 1rem;
+            text-align: center;
+            z-index: 2;
+        }
+
+        .text-welcome {
+            display: block;
+            font-size: 0.9rem;
+            color: #ffffff;
+            margin-bottom: 0.3rem;
+        }
+
+        .text-bingo,
+        .text-maker,
+        .text-dot,
+        .text-xyz {
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+
+        .text-bingo,
+        .text-maker {
+            color: white;
+        }
+
+        .text-dot {
+            color: #FFB5E8;
+        }
+
+        .text-xyz {
+            color: #B5EAD7;
+        }
+
+        .fade-out {
+            opacity: 0;
+            transition: opacity 1s ease-out;
+        }
+
+        /* Tablet and up */
+        @media (min-width: 768px) {
+            .video-container {
+                height: 17vh;
+                margin-bottom: 2rem;
+            }
+
+            .text-welcome {
+                font-size: 1.5rem;
+            }
+
+            .text-bingo,
+            .text-maker,
+            .text-dot,
+            .text-xyz {
+                font-size: 3rem;
+            }
+        }
+
+        /* ANIMATION & THEME */
+
+        body,
+        html {
+            width: 100%;
+            height: 100vh;
+        }
+
+        .sky-container {
+            width: 100%;
+            height: 100vh;
+            background-color: #1e3c72;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .star {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            box-shadow: 0 0 10px 2px rgba(255, 255, 255, 0.4);
+            animation: twinkle var(--twinkle-duration) infinite ease-in-out,
+                rotate var(--rotate-duration) infinite linear;
+        }
+
+        .sky-container::before,
+        .sky-container::after {
+            content: '';
+            position: absolute;
+            left: -350%;
+            top: -350%;
+            width: 700%;
+            height: 700%;
+            background-color: #4286f4;
+            opacity: 0.5;
+            animation: rotateSky 25s infinite linear;
+        }
+
+        .sky-container::after {
+            background-color: #6ba6ff;
+            animation-duration: 30s;
+            animation-direction: reverse;
+        }
+
+        .gradient-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at center, transparent 0%, rgba(30, 60, 114, 0.5) 100%);
+        }
+
+        @keyframes rotateSky {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes twinkle {
+
+            0%,
+            100% {
+                opacity: 0.4;
+            }
+
+            50% {
+                opacity: 1;
+            }
+        }
+
+        @keyframes rotate {
+            from {
+                transform: rotate(0deg) translate(var(--orbit-radius)) rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg) translate(var(--orbit-radius)) rotate(-360deg);
+            }
+        }
+
+        /* MAIN SYSTEM FEATURES */
+
+        .search-result-container {
+            position: relative;
+            width: 100px;
+            height: 100px;
+            cursor: pointer;
+            overflow: hidden;
+        }
+
+        .search-result-container:hover .image-attribution-overlay {
+            opacity: 1;
+        }
+
+        .image-attribution-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 8px;
+            font-size: 10px;
+            line-height: 1.3;
+            opacity: 0;
+            transition: opacity 0.2s ease-in-out;
+        }
+
+        .image-attribution-overlay a {
+            color: white;
+            text-decoration: underline;
+        }
+
+        .image-attribution-overlay a:hover {
+            color: #e0e0e0;
+        }
+
+        /* Update existing image style */
+        .search-result-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.2s;
+        }
+
+        .search-result-container:hover .search-result-img {
+            transform: scale(1.1);
+        }
+
+        /* General Styles */
+        body {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 20px;
+            font-family: Roboto, sans-serif;
+            background-color: #f5f5f5;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: rgba(255, 255, 255, 0.7);
+            padding: 24px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Step Management */
+        .step {
+            display: none;
+            margin-bottom: 24px;
+        }
+
+        .step.active {
+            display: block;
+        }
+
+        /* Grid Layout */
+        .grid-buttons {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin: 24px 0;
+        }
+
+        /* Button Styles */
+        .mdc-button {
+            margin: 8px;
+            min-width: 120px;
+        }
+
+        /* Image Search */
+        .image-search-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin-top: 24px;
+        }
+
+        .search-results {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 8px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        /* Text Field Customization */
+        .mdc-text-field-helper-text {
+            margin: 0 0 4px;
+            font-size: 0.75rem;
+            color: rgba(0, 0, 0, 0.6);
+            text-align: left;
+        }
+
+        .mdc-text-field--with-leading-icon .mdc-text-field__input {
+            padding-right: 16px;
+        }
+
+        .mdc-text-field--outlined .mdc-notched-outline .mdc-floating-label {
+            pointer-events: none;
+            transform: translateY(-130%) scale(0.75);
+        }
+
+        .mdc-text-field--outlined.mdc-text-field--with-value .mdc-floating-label,
+        .mdc-text-field--outlined.mdc-text-field--focused .mdc-floating-label {
+            display: none;
+        }
+
+        /* Selected Images Area */
+        .selected-images {
+            border: 2px dashed #ccc;
+            padding: 16px;
+            min-height: 200px;
+            position: relative;
+            transition: border-color 0.3s;
+        }
+
+        .selected-images.drag-over {
+            border-color: #2196F3;
+            background-color: rgba(33, 150, 243, 0.1);
+        }
+
+        /* Image Styles */
+        .search-result-img {
+            cursor: pointer;
+            transition: transform 0.2s;
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+        }
+
+        .search-result-img:hover {
+            transform: scale(1.1);
+        }
+
+        .selected-images-count {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background: #2196F3;
+            color: white;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+        }
+
+        /* Continue Button */
+        .continue-button {
+            display: none;
+            margin-top: 16px;
+        }
+
+        .continue-button.visible {
+            display: block;
+        }
+
+        /* Progress Section */
+        .progress-container {
+            margin-top: 24px;
+            text-align: center;
+        }
+
+        /* Ad Placeholder */
+        .ad-placeholder {
+            width: 300px;
+            height: 250px;
+            margin: 24px auto;
+            background: #eee;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Bingo Boards */
+        .bingo-boards {
+            margin-top: 24px;
+        }
+
+        .bingo-board {
+            page-break-after: always;
+            margin-bottom: 24px;
+            border: 1px solid #ccc;
+            padding: 16px;
+        }
+
+        .bingo-cell {
+            aspect-ratio: 1;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .bingo-cell img {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Counter and Buttons */
+        .remaining-images-counter {
+            text-align: center;
+            margin-bottom: 16px;
+            font-size: 1.2em;
+            color: #2196F3;
+        }
+
+        .restart-button {
+            margin-right: 16px;
+        }
+
+        /* Print Styles */
+        @media print {
+            .container {
+                box-shadow: none;
+                padding: 0;
+            }
+
+            .step {
+                display: none;
+            }
+
+            .bingo-boards {
+                display: block;
+            }
+        }
+    </style>
 </head>
 
 <body>
