@@ -198,6 +198,20 @@
             });
         });
         </script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                // Check if stylesheet loaded
+                const styleSheets = Array.from(document.styleSheets);
+                console.log('Loaded stylesheets:', styleSheets.map(sheet => sheet.href));
+                
+                // Check if classes are applied
+                const container = document.querySelector('.video-container');
+                if (container) {
+                    const styles = window.getComputedStyle(container);
+                    console.log('Video container styles:', container.classList);
+                }
+            });
+            </script>
 </body>
 
 </html>
