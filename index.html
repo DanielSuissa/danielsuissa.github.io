@@ -18,7 +18,7 @@
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bingo Board Generator - Create Custom Bingo Games</title>
+    <title>BingoMaker! Your Bingo Board Generator - Create Custom Bingo Boards</title>
 
     <!-- SEO Meta Tags -->
     <meta name="description"
@@ -36,17 +36,38 @@
         rel="stylesheet">
     <link href="styles.css" rel="stylesheet">
 
+
+    <!-- Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/material-components-web/14.0.0/material-components-web.min.css"
+        rel="stylesheet">
+    <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/material-components-web/14.0.0/material-components-web.min.js"></script>
+
+
     <!-- Scripts -->
     <script
         src="https://cdnjs.cloudflare.com/ajax/libs/material-components-web/14.0.0/material-components-web.min.js"></script>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=your-adsense-id"></script>
+    <script defer src="./theme.js"></script>
 </head>
 
 <body>
+    <div class="sky-container" id="sky">
+        <div class="gradient-overlay"></div>
+    </div>
+
     <div class="container">
-        <div align="center"><img src="assets/logo.png" /></div>
-        <h1 class="mdc-typography--headline4">Welcome to the Bingo-Maker!</h1>
-        <h2 class="mdc-typography--headline5">Your Bingo Board Generator</h2>
+        <div class="video-container">
+            <video id="headerVideo" autoplay muted playsinline>
+                <source src="./assets/intro.mp4" type="video/mp4">
+            </video>
+            <div class="overlay-text">
+                <span class="text-welcome">Welcome to the</span><br/>
+                <span class="text-bingo">Bingo</span><span class="text-maker">Maker</span><span
+                    class="text-dot">.</span><span class="text-xyz">xyz</span>
+            </div>
+        </div>
 
         <!-- Step 1: Choose board type -->
         <div class="step active" id="step1">
@@ -123,6 +144,7 @@
         <!-- Step 5: Generation Progress -->
         <div class="step" id="step5">
             <h2 class="mdc-typography--headline6">Generating Your Bingo Boards...</h2>
+            <h2 class="mdc-typography--headline6">A couple of seconds and you're done :)</h2>
             <div class="progress-container">
                 <div class="mdc-linear-progress" role="progressbar" id="progressBar">
                     <div class="mdc-linear-progress__buffer">
@@ -154,8 +176,28 @@
             <div class="bingo-boards" id="bingoBoards"></div>
         </div>
     </div>
+    <br />
+    <div align="center">
+        <span style="color: white;">Any ideas? Want something new?</span><br />
+        <a href="mailto:contact@bingomaker.xyz" class="mdc-button mdc-button--raised" style="text-decoration: none;">
+            <span class="mdc-button__ripple"></span>
+            <i class="material-icons mdc-button__icon">email</i>
+            <span class="mdc-button__label">Contact Us</span>
+        </a>
+    </div>
 
     <script src="script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const video = document.getElementById('headerVideo');
+            
+            // Handle video end
+            video.addEventListener('ended', function() {
+                // Add fade-out class when video ends
+                video.classList.add('fade-out');
+            });
+        });
+        </script>
 </body>
 
 </html>
