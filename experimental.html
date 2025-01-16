@@ -1,71 +1,326 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
-
 <head>
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-S3K664BRLR"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag() { dataLayer.push(arguments); }
-        gtag('js', new Date());
-
-        gtag('config', 'G-S3K664BRLR');
-    </script>
-
-    <!-- AdSense -->
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7369747443441201"
-        crossorigin="anonymous"></script>
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BingoMaker! Your Bingo Board Generator - Create Custom Bingo Boards</title>
-
-    <!-- SEO Meta Tags -->
-    <meta name="description"
-        content="Create custom bingo boards with numbers or images. Perfect for classroom activities, parties, and events. Free online bingo board generator.">
-    <meta name="keywords" content="bingo generator, custom bingo boards, bingo maker, free bingo creator, image bingo">
-
-    <!-- Open Graph / Social Media Meta Tags -->
-    <meta property="og:title" content="Bingo Board Generator">
-    <meta property="og:description" content="Create custom bingo boards with numbers or images. Free online generator.">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://your-domain.com">
-
-    <!-- Stylesheets -->
-    <link href="https://bingomaker.xyz/styles.css?v=1" type="text/css" rel="stylesheet">
-
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/material-components-web/14.0.0/material-components-web.min.css"
-        rel="stylesheet">
-
-    <!-- Material Icons -->
+    <title>BingoMaker! Your Bingo Board Generator</title>
+    
+    <!-- Material Design -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/material-components-web/14.0.0/material-components-web.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/material-components-web/14.0.0/material-components-web.min.css"
-        rel="stylesheet">
-    <script
-        src="https://cdnjs.cloudflare.com/ajax/libs/material-components-web/14.0.0/material-components-web.min.js"></script>
+    
+    <style>
+        :root {
+            --primary-color: rgb(98, 0, 238);
+            --text-on-primary: #ffffff;
+        }
 
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: Roboto, sans-serif;
+            background-color: #f5f5f5;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
 
-    <!-- Scripts -->
-    <script
-        src="https://cdnjs.cloudflare.com/ajax/libs/material-components-web/14.0.0/material-components-web.min.js"></script>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=your-adsense-id"></script>
-    <script defer src="./theme.js"></script>
+        .sky-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: linear-gradient(45deg, #1e3c72, #4286f4);
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 100%;
+            padding: 16px;
+            box-sizing: border-box;
+        }
+
+        .video-container {
+            position: relative;
+            width: 100%;
+            height: 120px;
+            background-color: var(--primary-color);
+            margin-bottom: 24px;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .overlay-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            width: 100%;
+            z-index: 2;
+        }
+
+        .text-welcome {
+            font-size: 1rem;
+            color: var(--text-on-primary);
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .brand-text {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--text-on-primary);
+        }
+
+        .step {
+            display: none;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .step.active {
+            display: block;
+            animation: fadeIn 0.3s ease-in;
+        }
+
+        .grid-buttons {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin: 16px 0;
+        }
+
+        .mdc-button {
+            width: 100%;
+            height: 48px;
+            margin: 0;
+            border-radius: 24px;
+        }
+
+        .image-upload-area {
+            border: 2px dashed #ccc;
+            padding: 20px;
+            text-align: center;
+            border-radius: 12px;
+            margin: 16px 0;
+            background: rgba(255,255,255,0.9);
+        }
+
+        .custom-size-dialog {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            z-index: 1000;
+        }
+
+        .custom-size-dialog .size-inputs {
+            display: flex;
+            gap: 8px;
+            margin-top: 16px;
+        }
+
+        .custom-size-dialog input {
+            width: 80px;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .image-sources-tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+
+        .tab-button {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            background: rgba(0,0,0,0.1);
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .tab-button.active {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+            margin-bottom: 20px;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .selected-images-preview {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(0,0,0,0.1);
+        }
+
+        .image-upload-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background: var(--primary-color);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 24px;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .image-sources-container {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            margin-bottom: 24px;
+        }
+
+        .image-source-section {
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 12px;
+            padding: 16px;
+        }
+
+        .search-container {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .search-results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 12px;
+            max-height: 300px;
+            overflow-y: auto;
+            padding: 8px;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 8px;
+        }
+
+        .search-result-item {
+            position: relative;
+            aspect-ratio: 1;
+            border-radius: 8px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .search-result-item:hover {
+            transform: scale(1.05);
+        }
+
+        .search-result-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .selected-images-section {
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 12px;
+            padding: 16px;
+        }
+
+        .selected-images-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 12px;
+            margin-top: 16px;
+        }
+
+        .selected-image-container {
+            position: relative;
+            aspect-ratio: 1;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .selected-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .remove-image {
+            position: absolute;
+            top: 4px;
+            right: 4px;
+            background: rgba(0,0,0,0.5);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .remaining-counter {
+            text-align: center;
+            color: var(--primary-color);
+            font-size: 1.1rem;
+            margin: 16px 0;
+            font-weight: 500;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (min-width: 768px) {
+            .container {
+                max-width: 768px;
+                margin: 0 auto;
+            }
+            
+            .video-container {
+                height: 160px;
+            }
+            
+            .text-welcome {
+                font-size: 1.2rem;
+            }
+            
+            .brand-text {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
 </head>
-
 <body>
-    <div class="sky-container" id="sky">
-        <div class="gradient-overlay"></div>
-    </div>
-
+    <div class="sky-container"></div>
+    
     <div class="container">
         <div class="video-container">
-            <video id="headerVideo" autoplay muted playsinline>
-                <source src="./assets/intro.mp4" type="video/mp4">
-            </video>
             <div class="overlay-text">
-                <span class="text-welcome">Welcome to the</span><br />
-                <span class="text-bingo">Bingo</span><span class="text-maker">Maker</span><span
-                    class="text-dot">.</span><span class="text-xyz">xyz</span>
+                <span class="text-welcome">Welcome to</span>
+                <div class="brand-text">
+                    <span class="text-bingo">Bingo</span>
+                    <span class="text-maker">Maker</span>
+                    <span style="color: #FFB5E8">.</span>
+                    <span style="color: #B5EAD7">xyz</span>
+                </div>
             </div>
         </div>
 
@@ -82,7 +337,7 @@
             </div>
         </div>
 
-        <!-- Step 2: Choose board size -->
+        <!-- Step 2: Board Size -->
         <div class="step" id="step2">
             <h2 class="mdc-typography--headline6">Choose Board Size</h2>
             <div class="grid-buttons">
@@ -90,44 +345,74 @@
                 <button class="mdc-button mdc-button--raised" onclick="selectBoardSize(5)">5x5</button>
                 <button class="mdc-button mdc-button--raised" onclick="selectBoardSize(6)">6x6</button>
                 <button class="mdc-button mdc-button--outlined" onclick="showCustomSizeDialog()">
-                    <span class="mdc-button__label">Custom Size</span>
+                    Custom Size
                 </button>
+            </div>
+            <div class="custom-size-dialog" id="customSizeDialog" style="display: none;">
+                <div class="dialog-content">
+                    <h3>Custom Board Size</h3>
+                    <div class="size-inputs">
+                        <input type="number" id="customSizeInput" min="2" max="10" value="7">
+                        <button class="mdc-button mdc-button--raised" onclick="applyCustomSize()">Apply</button>
+                        <button class="mdc-button mdc-button--outlined" onclick="cancelCustomSize()">Cancel</button>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <!-- Step 3: Image Search -->
+        <!-- Step 3: Image Upload -->
         <div class="step" id="step3">
-            <h2 class="mdc-typography--headline6">Search and Select Images</h2>
-            <div class="mdc-text-field mdc-text-field--outlined mdc-text-field--with-leading-icon">
-                <input type="text" id="imageSearch" class="mdc-text-field__input" placeholder="Search images..."
-                    onkeyup="searchImages(this.value)">
-                <div class="mdc-notched-outline">
-                    <div class="mdc-notched-outline__leading"></div>
-                    <div class="mdc-notched-outline__trailing"></div>
+            <h2 class="mdc-typography--headline6">Add Your Images</h2>
+            
+            <div class="remaining-counter" id="remainingCounter">
+                Select <span>0</span> more images
+            </div>
+
+            <div class="image-upload-area" id="imageUploadArea">
+                <div class="image-sources-tabs">
+                    <button class="tab-button active" onclick="switchTab('upload')">Upload Images</button>
+                    <button class="tab-button" onclick="switchTab('search')">Search Images</button>
+                </div>
+
+                <div class="tab-content active" id="uploadTab">
+                    <input type="file" id="imageInput" accept="image/*" multiple style="display: none">
+                    <button class="image-upload-button" onclick="document.getElementById('imageInput').click()">
+                        <span class="material-icons">add_photo_alternate</span>
+                        Choose Images
+                    </button>
+                </div>
+
+                <div class="tab-content" id="searchTab">
+                    <div class="search-container">
+                        <div class="mdc-text-field mdc-text-field--outlined mdc-text-field--with-leading-icon" style="width: 100%;">
+                            <span class="material-icons mdc-text-field__icon" style="color: #666;">search</span>
+                            <input type="text" id="imageSearch" class="mdc-text-field__input" 
+                                   placeholder="Search Unsplash images..."
+                                   onkeyup="handleSearchInput(event)">
+                            <div class="mdc-notched-outline">
+                                <div class="mdc-notched-outline__leading"></div>
+                                <div class="mdc-notched-outline__trailing"></div>
+                            </div>
+                        </div>
+                        <div id="searchResults" class="search-results-grid"></div>
+                    </div>
+                </div>
+
+                <div class="selected-images-preview">
+                    <h3 class="mdc-typography--subtitle1">Selected Images</h3>
+                    <div class="selected-images-grid" id="selectedImagesGrid"></div>
                 </div>
             </div>
 
-            <div class="remaining-images-counter" id="remainingCounter">
-                Remaining to select: <span>0</span> images
-            </div>
-
-            <p class="mdc-text-field-helper-text">
-                You can also drag and drop your own images here
-            </p>
-
-            <div class="image-search-container">
-                <div class="search-results" id="searchResults"></div>
-                <div class="selected-images" id="selectedImages">
-                    <div class="selected-images-count">0</div>
-                </div>
-            </div>
-
-            <button class="mdc-button mdc-button--raised continue-button" id="continueButton" onclick="showStep(4)">
-                <span class="mdc-button__label">Continue to Next Step</span>
+            <button class="mdc-button mdc-button--raised" 
+                    style="width: 100%; margin-top: 16px; display: none;" 
+                    id="continueButton" 
+                    onclick="showStep(4)">
+                Continue
             </button>
         </div>
 
-        <!-- Step 4: Choose number of boards -->
+        <!-- Step 4: Board Count -->
         <div class="step" id="step4">
             <h2 class="mdc-typography--headline6">How Many Boards?</h2>
             <div class="grid-buttons">
@@ -135,83 +420,304 @@
                 <button class="mdc-button mdc-button--raised" onclick="selectBoardCount(20)">20</button>
                 <button class="mdc-button mdc-button--raised" onclick="selectBoardCount(30)">30</button>
                 <button class="mdc-button mdc-button--raised" onclick="selectBoardCount(40)">40</button>
-                <button class="mdc-button mdc-button--outlined" onclick="showCustomCountDialog()">
-                    <span class="mdc-button__label">Custom Amount</span>
-                </button>
             </div>
-        </div>
-
-        <!-- Step 5: Generation Progress -->
-        <div class="step" id="step5">
-            <h2 class="mdc-typography--headline6">Generating Your Bingo Boards...</h2>
-            <h2 class="mdc-typography--headline6">A couple of seconds and you're done :)</h2>
-            <div class="progress-container">
-                <div class="mdc-linear-progress" role="progressbar" id="progressBar">
-                    <div class="mdc-linear-progress__buffer">
-                        <div class="mdc-linear-progress__buffer-bar"></div>
-                        <div class="mdc-linear-progress__buffer-dots"></div>
-                    </div>
-                    <div class="mdc-linear-progress__bar mdc-linear-progress__primary-bar">
-                        <span class="mdc-linear-progress__bar-inner"></span>
-                    </div>
-                    <div class="mdc-linear-progress__bar mdc-linear-progress__secondary-bar">
-                        <span class="mdc-linear-progress__bar-inner"></span>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Step 6: Generated Boards -->
-        <div class="step" id="step6">
-            <h2 class="mdc-typography--headline6">Your Bingo Boards are Ready!</h2>
-            <div class="button-container">
-                <button class="mdc-button mdc-button--raised" onclick="window.print()">
-                    <span class="mdc-button__label">Print Boards</span>
-                </button>
-                <button class="mdc-button mdc-button--outlined restart-button" onclick="restartApp()">
-                    <span class="mdc-button__label">Start Over</span>
-                </button>
-            </div>
-
-            <div class="bingo-boards" id="bingoBoards"></div>
         </div>
     </div>
-    <br />
-    <div align="center">
-        <span style="color: white;">Any ideas? Want something new?</span><br />
-        <a href="mailto:contact@bingomaker.xyz" class="mdc-button mdc-button--raised" style="text-decoration: none;">
-            <span class="mdc-button__ripple"></span>
-            <i class="material-icons mdc-button__icon">email</i>
-            <span class="mdc-button__label">Contact Us</span>
-        </a>
-    </div>
 
-    <script src="script.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const video = document.getElementById('headerVideo');
+        // State management
+        const state = {
+            boardType: null,
+            boardSize: null,
+            selectedImages: [],
+            boardCount: null
+        };
 
-            // Handle video end
-            video.addEventListener('ended', function () {
-                // Add fade-out class when video ends
-                video.classList.add('fade-out');
-            });
-        });
-    </script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            // Check if stylesheet loaded
-            const styleSheets = Array.from(document.styleSheets);
-            console.log('Loaded stylesheets:', styleSheets.map(sheet => sheet.href));
+        // Show specific step
+        function showStep(stepNumber) {
+            document.querySelectorAll('.step').forEach(step => step.classList.remove('active'));
+            document.getElementById(`step${stepNumber}`).classList.add('active');
+        }
 
-            // Check if classes are applied
-            const container = document.querySelector('.video-container');
-            if (container) {
-                const styles = window.getComputedStyle(container);
-                console.log('Video container styles:', container.classList);
+        // Step 1: Board Type Selection
+        function selectBoardType(type) {
+            state.boardType = type;
+            showStep(2);
+        }
+
+        // Step 2: Board Size Selection
+        function selectBoardSize(size) {
+            state.boardSize = size;
+            if (state.boardType === 'images') {
+                showStep(3);
+                updateRemainingCounter();
+            } else {
+                showStep(4);
             }
-        });
+        }
+
+        function showCustomSizeDialog() {
+            const size = prompt('Enter board size (2-10):', '');
+            if (size && !isNaN(size)) {
+                const sizeNum = parseInt(size);
+                if (sizeNum >= 2 && sizeNum <= 10) {
+                    selectBoardSize(sizeNum);
+                } else {
+                    alert('Please enter a number between 2 and 10');
+                }
+            }
+        }
+
+        // Constants
+        const CONFIG = {
+            WORKER_URL: 'https://bingomaker.xyz',
+            DEBOUNCE_DELAY: 500
+        };
+
+        // Image handling - File Upload
+        document.getElementById('imageInput').addEventListener('change', handleImageSelect);
+
+        function handleImageSelect(event) {
+            const files = Array.from(event.target.files).filter(file => file.type.startsWith('image/'));
+            
+            files.forEach(file => {
+                if (state.selectedImages.length < state.boardSize * state.boardSize) {
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        state.selectedImages.push(e.target.result);
+                        updateSelectedImagesGrid();
+                        updateRemainingCounter();
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+        }
+
+        function updateSelectedImagesGrid() {
+            const grid = document.getElementById('selectedImagesGrid');
+            grid.innerHTML = '';
+            
+            state.selectedImages.forEach((src, index) => {
+                const container = document.createElement('div');
+                container.className = 'selected-image-container';
+                
+                const img = document.createElement('img');
+                img.src = src;
+                img.className = 'selected-image';
+                
+                const removeBtn = document.createElement('button');
+                removeBtn.className = 'remove-image';
+                removeBtn.innerHTML = '×';
+                removeBtn.onclick = () => removeImage(index);
+                
+                container.appendChild(img);
+                container.appendChild(removeBtn);
+                grid.appendChild(container);
+            });
+            
+            updateContinueButton();
+        }
+
+        function removeImage(index) {
+            state.selectedImages.splice(index, 1);
+            updateSelectedImagesGrid();
+            updateRemainingCounter();
+        }
+
+        function updateRemainingCounter() {
+            const totalNeeded = state.boardSize * state.boardSize;
+            const remaining = Math.max(0, totalNeeded - state.selectedImages.length);
+            const counter = document.getElementById('remainingCounter');
+            counter.querySelector('span').textContent = remaining;
+        }
+
+        function updateContinueButton() {
+            const button = document.getElementById('continueButton');
+            const isComplete = state.selectedImages.length === state.boardSize * state.boardSize;
+            button.style.display = isComplete ? 'block' : 'none';
+        }
+
+        // Unsplash Search Handling
+        let searchTimeout = null;
+
+        function handleSearchInput(event) {
+            clearTimeout(searchTimeout);
+            const query = event.target.value.trim();
+            
+            if (query.length < 2) {
+                document.getElementById('searchResults').innerHTML = '';
+                return;
+            }
+
+            searchTimeout = setTimeout(() => searchUnsplashImages(query), CONFIG.DEBOUNCE_DELAY);
+        }
+
+        async function searchUnsplashImages(query) {
+            const searchResults = document.getElementById('searchResults');
+            searchResults.innerHTML = '<div style="text-align: center; padding: 20px;">Searching...</div>';
+            
+            try {
+                const response = await fetch(`${CONFIG.WORKER_URL}/api/unsplash/search/photos?query=${encodeURIComponent(query)}&per_page=20`);
+                
+                if (!response.ok) throw new Error('Search failed');
+                
+                const data = await response.json();
+                displaySearchResults(data.results);
+            } catch (error) {
+                console.error('Search error:', error);
+                searchResults.innerHTML = '<div style="text-align: center; padding: 20px; color: #f44336;">Search failed. Please try again.</div>';
+            }
+        }
+
+        function displaySearchResults(results) {
+            const searchResults = document.getElementById('searchResults');
+            searchResults.innerHTML = '';
+            
+            results.forEach(result => {
+                const container = document.createElement('div');
+                container.className = 'search-result-item';
+                
+                const img = document.createElement('img');
+                img.src = result.urls.thumb;
+                img.alt = result.alt_description || 'Unsplash image';
+                
+                container.onclick = () => {
+                    if (state.selectedImages.length < state.boardSize * state.boardSize) {
+                        state.selectedImages.push(result.urls.regular);
+                        updateSelectedImagesGrid();
+                        updateRemainingCounter();
+                        
+                        // Track Unsplash download
+                        fetch(`${CONFIG.WORKER_URL}/api/unsplash/photos/${result.id}/download`)
+                            .catch(error => console.error('Failed to track download:', error));
+                    } else {
+                        alert('Maximum number of images already selected');
+                    }
+                };
+                
+                container.appendChild(img);
+                searchResults.appendChild(container);
+            });
+        }
+
+        // Custom Size Dialog
+        function showCustomSizeDialog() {
+            document.getElementById('customSizeDialog').style.display = 'block';
+        }
+
+        function cancelCustomSize() {
+            document.getElementById('customSizeDialog').style.display = 'none';
+        }
+
+        function applyCustomSize() {
+            const size = parseInt(document.getElementById('customSizeInput').value);
+            if (size >= 2 && size <= 10) {
+                selectBoardSize(size);
+                cancelCustomSize();
+            } else {
+                alert('Please enter a size between 2 and 10');
+            }
+        }
+
+        // Tab Switching
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            
+            document.querySelector(`.tab-button[onclick="switchTab('${tabName}')"]`).classList.add('active');
+            document.getElementById(`${tabName}Tab`).classList.add('active');
+        }
+
+        // Board Generation
+        function selectBoardCount(count) {
+            state.boardCount = count;
+            showStep(5);
+            
+            // Start progress animation
+            const progressBar = document.getElementById('progressBar');
+            let progress = 0;
+            const interval = setInterval(() => {
+                progress += 0.1;
+                progressBar.style.width = `${progress * 100}%`;
+                if (progress >= 1) {
+                    clearInterval(interval);
+                    generateBoards();
+                }
+            }, 100);
+        }
+
+        function generateBoards() {
+            const container = document.getElementById('bingoBoards');
+            container.innerHTML = '';
+            
+            for (let i = 0; i < state.boardCount; i++) {
+                const board = document.createElement('div');
+                board.className = 'bingo-board';
+                
+                const grid = document.createElement('div');
+                grid.style.display = 'grid';
+                grid.style.gridTemplateColumns = `repeat(${state.boardSize}, 1fr)`;
+                grid.style.gap = '8px';
+                grid.style.aspectRatio = '1';
+                grid.style.margin = '20px 0';
+                
+                let boardContent;
+                if (state.boardType === 'numbers') {
+                    boardContent = generateNumberBoard();
+                } else {
+                    boardContent = generateImageBoard();
+                }
+                
+                boardContent.forEach(content => {
+                    const cell = document.createElement('div');
+                    cell.className = 'bingo-cell';
+                    cell.style.border = '1px solid #ccc';
+                    cell.style.padding = '4px';
+                    cell.style.aspectRatio = '1';
+                    
+                    if (state.boardType === 'numbers') {
+                        cell.style.display = 'flex';
+                        cell.style.alignItems = 'center';
+                        cell.style.justifyContent = 'center';
+                        cell.style.fontSize = `${24 / state.boardSize}vw`;
+                        cell.style.fontWeight = 'bold';
+                        cell.textContent = content;
+                    } else {
+                        const img = document.createElement('img');
+                        img.src = content;
+                        img.style.width = '100%';
+                        img.style.height = '100%';
+                        img.style.objectFit = 'cover';
+                        cell.appendChild(img);
+                    }
+                    
+                    grid.appendChild(cell);
+                });
+                
+                board.appendChild(grid);
+                container.appendChild(board);
+            }
+            
+            showStep(6);
+        }
+
+        function generateNumberBoard() {
+            const numbers = new Set();
+            const maxNum = Math.max(75, state.boardSize * state.boardSize);
+            while (numbers.size < state.boardSize * state.boardSize) {
+                numbers.add(Math.floor(Math.random() * maxNum) + 1);
+            }
+            return Array.from(numbers);
+        }
+
+        function generateImageBoard() {
+            const images = [...state.selectedImages];
+            for (let i = images.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [images[i], images[j]] = [images[j], images[i]];
+            }
+            return images;
+        }
     </script>
 </body>
-
 </html>
