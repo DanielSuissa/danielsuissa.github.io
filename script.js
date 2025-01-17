@@ -16,7 +16,7 @@ let state = {
 };
 
 // Initialize Material components
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     mdc.autoInit();
 });
 
@@ -59,33 +59,33 @@ function showCustomSizeDialog() {
 // Image Search and Selection
 async function searchImages(query) {
     if (!query) return;
-    
+
     const searchResults = document.getElementById('searchResults');
     searchResults.innerHTML = '<div>Searching images...</div>';
-    
+
     try {
         const response = await fetch(`${CONFIG.WORKER_URL}/api/unsplash/search/photos?query=${encodeURIComponent(query)}&per_page=20`);
-        
+
         if (!response.ok) {
             throw new Error('Network response was not ok');
         }
-        
+
         const data = await response.json();
         searchResults.innerHTML = '';
-        
+
         data.results.forEach(result => {
             const imgContainer = document.createElement('div');
             imgContainer.className = 'search-result-container';
-            
+
             const img = document.createElement('img');
             img.src = result.urls.thumb;
             img.dataset.fullUrl = result.urls.regular;
             img.className = 'search-result-img';
-            
+
             const overlay = document.createElement('div');
             overlay.className = 'image-attribution-overlay';
             overlay.innerHTML = `Photo by <a href="https://unsplash.com/@${result.user.username}?utm_source=bingo_generator&utm_medium=referral" target="_blank">${result.user.name}</a> on <a href="https://unsplash.com/?utm_source=bingo_generator&utm_medium=referral" target="_blank">Unsplash</a>`;
-            
+
             imgContainer.onclick = () => selectImage(result.urls.regular, `/api/unsplash/photos/${result.id}/download`);
             imgContainer.appendChild(img);
             imgContainer.appendChild(overlay);
@@ -129,12 +129,12 @@ function startGeneration() {
     showStep(5);
     const progressBar = new mdc.linearProgress.MDCLinearProgress(document.getElementById('progressBar'));
     progressBar.progress = 0;
-    
+
     let progress = 0;
     const interval = setInterval(() => {
         progress += 0.1;
         progressBar.progress = progress;
-        
+
         if (progress >= 1) {
             clearInterval(interval);
             generateBoards();
@@ -162,7 +162,7 @@ function generateImageBoard(size, images) {
 // Drag and Drop Management
 function setupDragAndDrop() {
     const selectedImagesDiv = document.getElementById('selectedImages');
-    
+
     const preventDefaults = (e) => {
         e.preventDefault();
         e.stopPropagation();
@@ -187,10 +187,10 @@ function setupDragAndDrop() {
 }
 
 function handleDrop(e) {
-    const files = Array.from(e.dataTransfer.files).filter(file => 
+    const files = Array.from(e.dataTransfer.files).filter(file =>
         file.type.startsWith('image/')
     );
-    
+
     files.forEach(file => {
         const reader = new FileReader();
         reader.onload = (event) => {
@@ -209,7 +209,7 @@ function updateRemainingCounter() {
     const totalNeeded = state.boardSize * state.boardSize;
     const selected = state.selectedImages.length;
     const remaining = Math.max(0, totalNeeded - selected);
-    
+
     const counterContainer = document.getElementById('remainingCounter');
     if (counterContainer) {
         counterContainer.innerHTML = `Remaining to select: <span>${remaining}</span> images`;
@@ -219,19 +219,17 @@ function updateRemainingCounter() {
 function updateSelectedImages() {
     const container = document.getElementById('selectedImages');
     container.innerHTML = '<div class="selected-images-count">' + state.selectedImages.length + '</div>';
-    
+
     state.selectedImages.forEach((src, index) => {
         const imgContainer = document.createElement('div');
         imgContainer.style.position = 'relative';
         imgContainer.style.display = 'inline-block';
         imgContainer.style.margin = '4px';
-        
+
         const img = document.createElement('img');
         img.src = src;
-        img.style.width = '100px';
-        img.style.height = '100px';
-        img.style.objectFit = 'cover';
-        
+        img.classList.add('thumbnail');
+
         const removeBtn = document.createElement('button');
         removeBtn.innerHTML = '×';
         removeBtn.className = 'mdc-button mdc-button--raised';
@@ -248,12 +246,12 @@ function updateSelectedImages() {
             updateContinueButton();
             updateRemainingCounter();
         };
-        
+
         imgContainer.appendChild(img);
         imgContainer.appendChild(removeBtn);
         container.appendChild(imgContainer);
     });
-    
+
     updateContinueButton();
 }
 
@@ -263,14 +261,14 @@ function selectImage(src, downloadLocation) {
         state.selectedImages.push(src);
         updateSelectedImages();
         updateRemainingCounter();
-        
+
         if (downloadLocation) {
             setTimeout(() => {
                 trackUnsplashDownload(downloadLocation)
                     .catch(error => console.error('Failed to track download:', error));
             }, 0);
         }
-        
+
         if (state.selectedImages.length === maxImages) {
             showStep(4);
         }
@@ -290,29 +288,33 @@ function updateContinueButton() {
 function generateBoards() {
     const container = document.getElementById('bingoBoards');
     container.innerHTML = '';
-    
+
     for (let i = 0; i < state.boardCount; i++) {
         const board = document.createElement('div');
-        board.className = 'bingo-board';
-        
+        board.classList.add('bingo-board','page');
+
+        const companyRemark = document.createElement('span');
+        companyRemark.classList.add('board-remark');
+        companyRemark.innerText = "Visit us again at https://www.bingomaker.xyz";
+
         const grid = document.createElement('div');
         grid.style.display = 'grid';
         grid.style.gridTemplateColumns = `repeat(${state.boardSize}, 1fr)`;
         grid.style.gap = '8px';
-        
+
         let boardContent;
         if (state.boardType === 'numbers') {
             boardContent = generateBoardContent(state.boardSize);
         } else {
             boardContent = generateImageBoard(state.boardSize, state.selectedImages);
         }
-        
+
         boardContent.forEach((content) => {
             const cell = document.createElement('div');
             cell.className = 'bingo-cell';
             cell.style.border = '1px solid #ccc';
             cell.style.textAlign = 'center';
-            
+
             if (state.boardType === 'numbers') {
                 cell.style.display = 'flex';
                 cell.style.alignItems = 'center';
@@ -330,14 +332,16 @@ function generateBoards() {
                 img.style.objectFit = 'cover';
                 cell.appendChild(img);
             }
-            
+
             grid.appendChild(cell);
         });
-        
+
         board.appendChild(grid);
+        board.appendChild(companyRemark);
+
         container.appendChild(board);
     }
-    
+
     showStep(6);
 }
 
@@ -348,11 +352,48 @@ function restartApp() {
         selectedImages: [],
         boardCount: null
     };
-    
+
     document.getElementById('imageSearch').value = '';
     document.getElementById('searchResults').innerHTML = '';
     document.getElementById('selectedImages').innerHTML = '<div class="selected-images-count">0</div>';
     document.getElementById('bingoBoards').innerHTML = '';
-    
+
     showStep(1);
 }
+
+// Mobile file upload handling
+document.addEventListener('DOMContentLoaded', function () {
+    const imageUpload = document.getElementById('imageUpload');
+    if (imageUpload) {
+        imageUpload.addEventListener('change', handleFileUpload);
+    }
+});
+
+function handleFileUpload(event) {
+    const files = Array.from(event.target.files).filter(file =>
+        file.type.startsWith('image/')
+    );
+
+    files.forEach(file => {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            if (state.selectedImages.length < state.boardSize * state.boardSize) {
+                selectImage(e.target.result);
+            }
+        };
+        reader.readAsDataURL(file);
+    });
+
+    // Reset file input
+    event.target.value = '';
+}
+
+// Prevent bounce-scroll on iOS
+document.addEventListener('touchmove', function (event) {
+    if (event.target.closest('.search-results, .selected-images')) {
+        event.stopPropagation();
+    }
+}, { passive: true });
+
+// Better touch handling for image selection
+document.addEventListener('touchstart', function () { }, { passive: true });

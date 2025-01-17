@@ -9,6 +9,56 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/material-components-web/14.0.0/material-components-web.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-S3K664BRLR"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-S3K664BRLR');
+    </script>
+
+    <!-- AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7369747443441201"
+        crossorigin="anonymous"></script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BingoMaker! Your Bingo Board Generator - Create Custom Bingo Boards</title>
+
+    <!-- SEO Meta Tags -->
+    <meta name="description"
+        content="Create custom bingo boards with numbers or images. Perfect for classroom activities, parties, and events. Free online bingo board generator.">
+    <meta name="keywords" content="bingo generator, custom bingo boards, bingo maker, free bingo creator, image bingo">
+
+    <!-- Open Graph / Social Media Meta Tags -->
+    <meta property="og:title" content="Bingo Board Generator">
+    <meta property="og:description" content="Create custom bingo boards with numbers or images. Free online generator.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://bingomaker.xyz">
+
+    <!-- Stylesheets -->
+    <link href="https://bingomaker.xyz/styles.css?v=1" type="text/css" rel="stylesheet">
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/material-components-web/14.0.0/material-components-web.min.css"
+        rel="stylesheet">
+
+    <!-- Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/material-components-web/14.0.0/material-components-web.min.css"
+        rel="stylesheet">
+    <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/material-components-web/14.0.0/material-components-web.min.js"></script>
+
+
+    <!-- Scripts -->
+    <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/material-components-web/14.0.0/material-components-web.min.js"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=your-adsense-id"></script>
+    <script defer src="./theme.js"></script>
+
+
     <style>
         :root {
             --primary-color: rgb(98, 0, 238);
@@ -19,7 +69,6 @@
             margin: 0;
             padding: 0;
             font-family: Roboto, sans-serif;
-            background-color: #f5f5f5;
             min-height: 100vh;
             overflow-x: hidden;
         }
@@ -306,6 +355,9 @@
                 font-size: 2.5rem;
             }
         }
+        .btn-mail{
+            width:15em;
+        }
     </style>
 </head>
 <body>
@@ -419,11 +471,20 @@
                 <button class="mdc-button mdc-button--raised" onclick="selectBoardCount(10)">10</button>
                 <button class="mdc-button mdc-button--raised" onclick="selectBoardCount(20)">20</button>
                 <button class="mdc-button mdc-button--raised" onclick="selectBoardCount(30)">30</button>
-                <button class="mdc-button mdc-button--raised" onclick="selectBoardCount(40)">40</button>
+                <button class="mdc-button mdc-button--outlined" onclick="showCustomNumberDialog('Number of borads to generate',1,100,40)">CUSTOM NUMBER</button>
             </div>
         </div>
     </div>
-
+    <br/>
+    <div align="center">
+        <span style="color: white;">Any ideas? Want something new?</span><br /><br/>
+        <a href="mailto:contact@bingomaker.xyz" class="mdc-button mdc-button--raised btn-mail" style="text-decoration: none;">
+            <span class="mdc-button__ripple"></span>
+            <i class="material-icons mdc-button__icon">email</i>
+            <span class="mdc-button__label">Contact Us</span>
+        </a>
+    </div>
+    <br/>
     <script>
         // State management
         const state = {
@@ -466,6 +527,29 @@
                     alert('Please enter a number between 2 and 10');
                 }
             }
+        }
+
+        function showCustomNumberDialog(prompt,min,max,defValue){
+            const template = `
+            <div class="custom-size-dialog" id="customSizeDialog" style="display: none;">
+                <div class="dialog-content">
+                    <h3>${prompt}</h3>
+                    <div class="size-inputs">
+                        <input type="number" name="num-input" min="${min}" max="${max}" value="${defValue}">
+                        <button name="cmd-apply" class="mdc-button mdc-button--raised">Apply</button>
+                        <button name="cmd-cancel" class="mdc-button mdc-button--outlined">Cancel</button>
+                    </div>
+                </div>
+            </div>
+            `;
+            const parser = new DOMParser();
+            const newObject = parser.parseFromString(template, 'text/html');
+            numInput = newObject.querySelector('[name="num-input"]');
+            cmdApply = newObject.querySelector('[name="cmd-apply"]');
+            cmdCancel = newObject.querySelector('[name="cmd-cancel"]');
+            cmdApply.onclick = ()=>{state.boardCount = numInput.value;}
+            cmdCancel.onclick = ()=>{newObject.parentElement.removeChild(newObject);}
+            document.body.appendChild(newObject?.body?.firstChild);
         }
 
         // Constants
@@ -522,6 +606,8 @@
             state.selectedImages.splice(index, 1);
             updateSelectedImagesGrid();
             updateRemainingCounter();
+            // Reset the file input to allow re-uploading the same file
+            document.getElementById('imageInput').value = '';
         }
 
         function updateRemainingCounter() {

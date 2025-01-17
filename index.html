@@ -32,8 +32,6 @@
     <meta property="og:url" content="https://your-domain.com">
 
     <!-- Stylesheets -->
-    <link href="https://bingomaker.xyz/styles.css?v=1" type="text/css" rel="stylesheet">
-
     <link href="https://cdnjs.cloudflare.com/ajax/libs/material-components-web/14.0.0/material-components-web.min.css"
         rel="stylesheet">
 
@@ -41,6 +39,9 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/material-components-web/14.0.0/material-components-web.min.css"
         rel="stylesheet">
+    
+    <link href="./styles.css?v=1" type="text/css" rel="stylesheet">
+
     <script
         src="https://cdnjs.cloudflare.com/ajax/libs/material-components-web/14.0.0/material-components-web.min.js"></script>
 
@@ -58,14 +59,18 @@
     </div>
 
     <div class="container">
-        <div class="video-container">
+        <div class="video-container no-print">
             <video id="headerVideo" autoplay muted playsinline>
                 <source src="./assets/intro.mp4" type="video/mp4">
             </video>
             <div class="overlay-text">
-                <span class="text-welcome">Welcome to the</span><br />
-                <span class="text-bingo">Bingo</span><span class="text-maker">Maker</span><span
-                    class="text-dot">.</span><span class="text-xyz">xyz</span>
+                <span class="text-welcome">Welcome to</span>
+                <div class="brand-text">
+                    <span class="text-bingo">Bingo</span>
+                    <span class="text-maker">Maker</span>
+                    <span style="color: #FFB5E8">.</span>
+                    <span style="color: #B5EAD7">xyz</span>
+                </div>
             </div>
         </div>
 
@@ -95,31 +100,41 @@
             </div>
         </div>
 
-        <!-- Step 3: Image Search -->
+        <!-- Step 3: Image Search and Upload -->
         <div class="step" id="step3">
-            <h2 class="mdc-typography--headline6">Search and Select Images</h2>
-            <div class="mdc-text-field mdc-text-field--outlined mdc-text-field--with-leading-icon">
-                <input type="text" id="imageSearch" class="mdc-text-field__input" placeholder="Search images..."
-                    onkeyup="searchImages(this.value)">
-                <div class="mdc-notched-outline">
-                    <div class="mdc-notched-outline__leading"></div>
-                    <div class="mdc-notched-outline__trailing"></div>
-                </div>
-            </div>
+            <h2 class="mdc-typography--headline6">Add Images</h2>
 
-            <div class="remaining-images-counter" id="remainingCounter">
-                Remaining to select: <span>0</span> images
-            </div>
+            <!-- Mobile-friendly upload UI -->
+            <div class="upload-container">
 
-            <p class="mdc-text-field-helper-text">
-                You can also drag and drop your own images here
-            </p>
-
-            <div class="image-search-container">
-                <div class="search-results" id="searchResults"></div>
                 <div class="selected-images" id="selectedImages">
                     <div class="selected-images-count">0</div>
                 </div>
+
+                <div class="remaining-images-counter" id="remainingCounter">
+                    Remaining to select: <span>0</span> images
+                </div>
+
+                <input type="file" id="imageUpload" accept="image/*" multiple>
+                <label for="imageUpload" class="upload-button">
+                    <i class="material-icons">add_photo_alternate</i>
+                    Choose Images
+                </label>
+                <p class="mdc-typography--body2">or search online:</p>
+                <div class="mdc-text-field mdc-text-field--outlined mdc-text-field--with-leading-icon">
+                    <i class="material-icons mdc-text-field__icon">search</i>
+                    <input type="text" id="imageSearch" class="mdc-text-field__input" placeholder="Search images..."
+                        onkeyup="searchImages(this.value)">
+                    <div class="mdc-notched-outline">
+                        <div class="mdc-notched-outline__leading"></div>
+                        <div class="mdc-notched-outline__trailing"></div>
+                    </div>
+                </div>
+
+                <div class="image-search-container">
+                    <div class="search-results" id="searchResults"></div>
+                </div>
+
             </div>
 
             <button class="mdc-button mdc-button--raised continue-button" id="continueButton" onclick="showStep(4)">
@@ -163,8 +178,8 @@
 
         <!-- Step 6: Generated Boards -->
         <div class="step" id="step6">
-            <h2 class="mdc-typography--headline6">Your Bingo Boards are Ready!</h2>
-            <div class="button-container">
+            <h2 class="mdc-typography--headline6 no-print">Your Bingo Boards are Ready!</h2>
+            <div class="button-container no-print">
                 <button class="mdc-button mdc-button--raised" onclick="window.print()">
                     <span class="mdc-button__label">Print Boards</span>
                 </button>
@@ -176,11 +191,10 @@
             <div class="bingo-boards" id="bingoBoards"></div>
         </div>
     </div>
-    <br />
-    <div align="center">
+    <br/>
+    <div align="center" class="no-print">
         <span style="color: white;">Any ideas? Want something new?</span><br />
         <a href="mailto:contact@bingomaker.xyz" class="mdc-button mdc-button--raised" style="text-decoration: none;">
-            <span class="mdc-button__ripple"></span>
             <i class="material-icons mdc-button__icon">email</i>
             <span class="mdc-button__label">Contact Us</span>
         </a>
