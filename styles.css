@@ -491,8 +491,7 @@ body {
     break-after: page;         /* Modern syntax, better browser support */
     
     /* Optional but recommended print formatting */
-    min-height: 100vh;        /* Full viewport height */
-    padding: 2cm;             /* Standard paper margins */
+    max-height: 100vh;        /* Full viewport height */
     box-sizing: border-box;   /* Include padding in height calc */
   }
   
