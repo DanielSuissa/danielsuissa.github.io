@@ -525,3 +525,18 @@ body {
     color:rgba(0,0,0,0.5);
     font-size: 0.75em;
   }
+
+  .txtbox-lbl {
+    position: absolute !important;
+    left: 15px;
+    transform: translateY(-50%);
+    background-color: #6200ee;
+    border-radius: 100rem;
+    padding: 5px;
+    color: white !important;
+    font-size: 0.7rem;
+  }
+
+  .btn-checked {
+    background-color: #9954f9 !important;
+  }

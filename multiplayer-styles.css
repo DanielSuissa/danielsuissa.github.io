@@ -1,0 +1,61 @@
+/* Game Mode Selection */
+.game-mode-selection {
+    text-align: center;
+    padding: 2rem 1rem;
+}
+
+.game-mode-selection .mdc-button {
+    margin: 0.5rem;
+    min-width: 200px;
+}
+
+/* Multiplayer Mode Specific Styles */
+.multiplayer-mode-container .mdc-text-field {
+    width: 100%;
+    margin: 1rem 0;
+}
+
+.board-size-selection {
+    margin: 2rem 0;
+}
+
+/* Pattern Selection Grid */
+.pattern-grid {
+    display: grid;
+    gap: 4px;
+    margin: 1rem auto;
+    max-width: 400px;
+}
+
+.pattern-cell {
+    aspect-ratio: 1;
+    border: 1px solid #ccc;
+    background: white;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.pattern-cell.selected {
+    background: #6200ee;
+}
+
+/* Game Created Info */
+.game-info {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 1rem;
+    border-radius: 8px;
+    margin: 1rem 0;
+}
+
+.game-link {
+    word-break: break-all;
+    padding: 1rem;
+    background: #f5f5f5;
+    border-radius: 4px;
+    margin: 1rem 0;
+    font-family: monospace;
+}
+
+.copy-button {
+    margin-top: 0.5rem !important;
+}

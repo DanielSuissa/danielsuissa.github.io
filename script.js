@@ -35,13 +35,16 @@ function selectBoardType(type) {
 // Step 2: Board Size Selection
 function selectBoardSize(size) {
     state.boardSize = size;
+    let nextStep;
     if (state.boardType === 'images') {
-        showStep(3);
+        nextStep = 3;
         setupDragAndDrop();
         updateRemainingCounter();
     } else {
-        showStep(4);
+        nextStep = 4;
     }
+    setStep(`step${nextStep}`);
+    showStep(nextStep);
 }
 
 function showCustomSizeDialog() {
@@ -271,6 +274,7 @@ function selectImage(src, downloadLocation) {
 
         if (state.selectedImages.length === maxImages) {
             showStep(4);
+            showStep('step4');
         }
     }
 }
