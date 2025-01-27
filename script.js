@@ -43,7 +43,9 @@ function selectBoardSize(size) {
     } else {
         nextStep = 4;
     }
-    setStep(`step${nextStep}`);
+    if(typeof setStep !== 'undefined'){
+        setStep(`step${nextStep}`);
+    }
     showStep(nextStep);
 }
 

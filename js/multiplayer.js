@@ -3,7 +3,8 @@ let multiplayerState = {
     gameName: '',
     startTime: '',
     boardSize: 0,
-    pattern: [],
+    customPatterns:[],
+    patterns: [],
     gameId: ''
 };
 
@@ -40,7 +41,7 @@ function showPatternSelection() {
     const size = multiplayerState.boardSize;
     
     // Initialize empty pattern
-    multiplayerState.pattern = Array(size).fill().map(() => Array(size).fill(false));
+    multiplayerState.patterns = Array(size).fill().map(() => Array(size).fill(false));
     
     // Create pattern selection grid
     let html = `
@@ -68,13 +69,13 @@ function showPatternSelection() {
 
 function togglePatternCell(row, col) {
     const cell = document.querySelector(`.pattern-cell[data-row="${row}"][data-col="${col}"]`);
-    multiplayerState.pattern[row][col] = !multiplayerState.pattern[row][col];
+    multiplayerState.patterns[row][col] = !multiplayerState.patterns[row][col];
     cell.classList.toggle('selected');
 }
 
 async function createGame() {
     // Ensure at least one cell is selected
-    if (!multiplayerState.pattern.some(row => row.some(cell => cell))) {
+    if (!multiplayerState.patterns.some(row => row.some(cell => cell))) {
         alert('Please select at least one cell for the winning pattern');
         return;
     }
