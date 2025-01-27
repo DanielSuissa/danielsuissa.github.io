@@ -276,11 +276,13 @@
         installButton.className = 'mdc-button mdc-button--raised';
         installButton.innerHTML = '<span class="mdc-button__label">Install App</span>';
 
+        /*
         window.addEventListener('beforeinstallprompt', (e) => {
             e.preventDefault();
             deferredPrompt = e;
             installButton.style.display = 'block';
         });
+        */
 
         installButton.addEventListener('click', async () => {
             if (deferredPrompt) {
