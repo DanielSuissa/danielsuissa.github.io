@@ -1,4 +1,4 @@
-const CACHE_NAME = 'bingomaker-v1';
+const CACHE_NAME = 'bingomaker-v2';
 const urlsToCache = [
   '/',
   '/index.html',
