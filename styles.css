@@ -478,6 +478,9 @@ body {
     .sky-container {
         display: none;
     }
+    .page {
+        max-height: 100vh;        /* Full viewport height */
+    }
 }
 
 .thumbnail {
@@ -491,7 +494,6 @@ body {
     break-after: page;         /* Modern syntax, better browser support */
     
     /* Optional but recommended print formatting */
-    max-height: 100vh;        /* Full viewport height */
     box-sizing: border-box;   /* Include padding in height calc */
   }
   
